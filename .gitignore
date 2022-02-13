@@ -2,9 +2,12 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
 .vscode
 
+
+# docker_database_data
+
+*data/
 
 # Environment files
 *.env

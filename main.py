@@ -11,13 +11,13 @@ import sqlalchemy
 from pydantic import BaseModel, EmailStr, Field, validator
 from fastapi import FastAPI, HTTPException, dependencies, Depends
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-import config
+from config import DATABASE_URL, JWT_SECRET
 from email_validator import validate_email as validate_e, EmailNotValidError
 from passlib.context import CryptContext
 from starlette.requests import Request
 
 
-database = databases.Database(config.DATABASE_URL)
+database = databases.Database(DATABASE_URL)
 
 metadata = sqlalchemy.MetaData()
 
@@ -173,7 +173,7 @@ def is_admin(request: Request):
 def create_access_token(user):
     try:
         payload = {"sub": user["id"], "exp": datetime.utcnow() + timedelta(minutes=120)}
-        return jwt.encode(payload, config.JWT_SECRET)
+        return jwt.encode(payload, JWT_SECRET)
     except Exception as ex:
         raise ex
     
